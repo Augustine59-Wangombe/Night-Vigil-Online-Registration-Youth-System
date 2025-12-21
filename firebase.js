@@ -30,20 +30,17 @@ window.addEventListener("DOMContentLoaded", () => {
 
     const getVal = (id) => form.querySelector(`#${id}`)?.value || "";
     await addDoc(collection(db, "registrations"), {
+    name: getVal("fullName"),
+    phone: getVal("phone"),
+    Age: getVal("Age"),
+    localchurch: getVal("localChurch"),
+    Gender: getVal("Gender"),
+     createdAt: new Date()
+    });
 
-
-
-
-
-
-
-
-
-
-
-                 alert("✅ Registration successful!");
-         catch (error) {
-      alert(error.message);
+     alert("✅ Registration successful!");
+     catch (error) {
+     alert(error.message);
       console.error(error);
     }
   });
