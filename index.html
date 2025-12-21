@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Night Vigil Online Registration System</title>
+</head>
+<body>
+
+<style>
+.Img1{
+  height: auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.form-box {
+  width:420px;
+  background: #ffffff;
+  padding:24px;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transform: translateY(40px);
+}
+
+.register {
+  width: 100%;
+  background-color: #007bff;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.selec {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+
+
+@media screen and (max-width: 480px) {
+  .form-box {
+    width: 90%;
+    top: -70px;
+    padding: 25px;
+  }
+  }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: #f5f6fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+.H2{
+  text-align: center;
+  color: rgb(0, 174, 255);
+}
+
+
+</style>
+
+
+  <img class="Img1" src="images/Screenshot (126).png" alt="Welcoming Image">
+  <div class="form-box" id="register-form">
+  <form id="registerForm" action="">
+    <h2 class="H2">Register</h2>
+    <input id="fullName" type="text" placeholder="Full Name" class="selec">
+    <input class="selec" id="phone" type="tel" placeholder="Phone Number"
+               pattern="[\+0-9]{10,15}" maxlength="15"
+               oninput="this.value = this.value.replace(/[^0-9+]/g, '')"
+                required />
+    <input id="Age" type="number" placeholder="Enter your Age" class="selec" required>
+
+    <label>Choose Local Church</label>
+    <select name="Local Church" id="localChurch" class="selec">
+    <option value="St.Paul">St.Paul</option>
+    <option value="St.Lwanga">St.Lwanga</option>
+    
+    </select>
+   <label>Gender</label>
+   <select name="Gender" id="Gender" class="selec">
+   <option value="Male">Male</option>
+   <option value="Female">Female</option>
+
+   </select>
+<button class="register" type="submit">Register</button>
+  </form>
+
+  </div>
+</body>
+</html>
