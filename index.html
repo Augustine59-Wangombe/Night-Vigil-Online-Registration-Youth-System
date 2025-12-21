@@ -80,7 +80,7 @@ body {
 
   <img class="Img1" src="images/Screenshot (126).png" alt="Welcoming Image">
   <div class="form-box" id="register-form">
-  <form id="registerForm" action="">
+  <form id="registerForm" onsubmit="event.preventDefult(); registerUser();">
     <h2 class="H2">Register</h2>
     <input id="fullName" type="text" placeholder="Full Name" class="selec">
     <input class="selec" id="phone" type="tel" placeholder="Phone Number"
@@ -107,4 +107,5 @@ body {
   </div>
 </body>
 </html>
+
 
