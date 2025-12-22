@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
 
   const roleSelect = document.getElementById('role');
@@ -13,9 +12,13 @@ document.addEventListener("DOMContentLoaded", function () {
   roleSelect?.addEventListener('change', function() {
     if (this.value === 'leader') {
       leadershipSection.style.display = 'block';
+      levelSelect.required = true;
+      positionSelect.required = true;
     } else {
       leadershipSection.style.display = 'none';
       positionSection.style.display = 'none';
+      levelSelect.required = false;
+      positionSelect.required = false;
     }
   });
 
