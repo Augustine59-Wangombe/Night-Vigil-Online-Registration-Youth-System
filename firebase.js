@@ -39,9 +39,9 @@ window.addEventListener("DOMContentLoaded", () => {
       await addDoc(collection(db, "registrations"), {
         name: getVal("fullName"),
         phone: getVal("phone"),
-        age: getVal("age"),
+        age: getVal("Age"),
         localChurch: getVal("localChurch"),
-        gender: getVal("gender"),
+        gender: getVal("Gender"),
         createdAt: new Date()
       });
 
