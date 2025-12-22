@@ -49,15 +49,13 @@
   transition: border 0.3s;
 }
 
-
-
 @media screen and (max-width: 480px) {
   .form-box {
     width: 90%;
     top: -70px;
     padding: 25px;
   }
-  }
+}
 
 body {
   margin: 0;
@@ -67,75 +65,66 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
 }
+
 .H2{
   text-align: center;
   color: rgb(0, 174, 255);
 }
-
-
 </style>
 
+<img class="Img1" src="images/Screenshot (126).png" alt="Welcoming Image">
 
-  <img class="Img1" src="images/Screenshot (126).png" alt="Welcoming Image">
-  <div class="form-box" id="register-form">
+<div class="form-box" id="register-form">
   <form id="registerForm">
     <h2 class="H2">Register</h2>
-    <input id="fullName" type="text" placeholder="Full Name" class="selec">
+    <input id="fullName" type="text" placeholder="Full Name" class="selec" required>
     <input class="selec" id="phone" type="tel" placeholder="Phone Number"
-               pattern="[\+0-9]{10,15}" maxlength="15"
-               oninput="this.value = this.value.replace(/[^0-9+]/g, '')"
-                required />
+           pattern="[\+0-9]{10,15}" maxlength="15"
+           oninput="this.value = this.value.replace(/[^0-9+]/g, '')"
+           required />
     <input id="Age" type="number" placeholder="Enter your Age" class="selec" required>
 
     <label>Choose Local Church</label>
-    <select name="Local Church" id="localChurch" class="selec">
-    <option value="St.Paul">St.Paul</option>
-    <option value="St.Lwanga">St.Lwanga</option>
-    
+    <select name="Local Church" id="localChurch" class="selec" required>
+      <option value="St.Paul">St.Paul</option>
+      <option value="St.Lwanga">St.Lwanga</option>
     </select>
+
     <label>Role:</label>
-        <select id="role" class="selec" required>
-          <option value="">-- Choose Role --</option>
-          <option value="member">Member</option>
-          <option value="leader">Leader</option>
-        </select>
+    <select id="role" class="selec" required>
+      <option value="">-- Choose Role --</option>
+      <option value="member">Member</option>
+      <option value="leader">Leader</option>
+    </select>
 
-        <div id="leadershipSection" style="display:none;">
-          <label>Level of Leadership:</label>
-          <select id="level" class="selec" required>
-            <option value="">-- Choose Level --</option>
-            <option value="parish">Parish Level</option>
-            <option value="local">Local Level</option>
-          </select>
-        </div>
-
-        <div id="positionSection" style="display:none;">
-          <label>Leadership Position:</label>
-          <select id="position" class="selec" required>
-            <option value="">-- Choose Position --</option>
-          </select>
+    <div id="leadershipSection" style="display:none;">
+      <label>Level of Leadership:</label>
+      <select id="level" class="selec">
+        <option value="">-- Choose Level --</option>
+        <option value="parish">Parish Level</option>
+        <option value="local">Local Level</option>
+      </select>
     </div>
-   <label>Gender</label>
-   <select name="Gender" id="Gender" class="selec">
-   <option value="Male">Male</option>
-   <option value="Female">Female</option>
 
-   </select>
-<button class="register" type="submit">Register</button>
+    <div id="positionSection" style="display:none;">
+      <label>Leadership Position:</label>
+      <select id="position" class="selec">
+        <option value="">-- Choose Position --</option>
+      </select>
+    </div>
+
+    <label>Gender</label>
+    <select name="Gender" id="Gender" class="selec" required>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+
+    <button class="register" type="submit">Register</button>
   </form>
+</div>
 
-  </div>
-  <script type="module" src="firebase.js"></script>
-  <script type="module" src="script.js"></script>
+<script type="module" src="firebase.js"></script>
+<script type="module" src="script.js"></script>
 </body>
-</html>
-
-
-
-
-
-
-
-
+  </html>
