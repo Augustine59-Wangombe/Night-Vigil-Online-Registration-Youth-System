@@ -2,7 +2,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDbJ7ckY-O83Do2PRkwAUvrBTB9HXSlKJk",
@@ -18,18 +17,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Wait for page to load
+// Keep getVal as is
 window.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("registerForm");
   if (!form) return;
+
+  const getVal = (id) => form.querySelector(`#${id}`)?.value || "";
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     try {
-      const getVal = (id) =>
-        form.querySelector(`#${id}`)?.value || "";
-
       await addDoc(collection(db, "registrations"), {
         name: getVal("fullName"),
         phone: getVal("phone"),
@@ -37,14 +35,15 @@ window.addEventListener("DOMContentLoaded", () => {
         localChurch: getVal("localChurch"),
         gender: getVal("Gender"),
         role: getVal("role"),
-        level: getVal("level"),
-        position: getVal("position"),
+        level: getVal("level") || "",
+        position: getVal("position") || "",
         createdAt: new Date()
       });
 
       alert("✅ Registration successful!");
       form.reset();
-
+      document.getElementById('leadershipSection').style.display = 'none';
+      document.getElementById('positionSection').style.display = 'none';
     } catch (error) {
       console.error("Firestore error:", error);
       alert("❌ Error: " + error.message);
