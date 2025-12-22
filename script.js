@@ -1,6 +1,5 @@
 
-// -----------------------
-  // LEADERSHIP LOGIC 
+// LEADERSHIP LOGIC 
   // -----------------------
   const roleSelect = document.getElementById('role');
   const leadershipSection = document.getElementById('leadershipSection');
