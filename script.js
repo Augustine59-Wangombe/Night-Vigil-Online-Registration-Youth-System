@@ -1,6 +1,8 @@
 
 // LEADERSHIP LOGIC 
   // -----------------------
+document.addEventListener("DOMContentLoaded", function () {
+
   const roleSelect = document.getElementById('role');
   const leadershipSection = document.getElementById('leadershipSection');
   const positionSection = document.getElementById('positionSection');
