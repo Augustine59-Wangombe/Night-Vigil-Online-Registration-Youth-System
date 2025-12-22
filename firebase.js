@@ -37,6 +37,8 @@ window.addEventListener("DOMContentLoaded", () => {
         localChurch: getVal("localChurch"),
         gender: getVal("Gender"),
         role: getVal("role"),
+        level: getVal("level"),
+        position: getVal("position"),
         createdAt: new Date()
       });
 
