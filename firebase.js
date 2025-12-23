@@ -1,3 +1,4 @@
+
 import { serverTimestamp } from
 "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
@@ -39,7 +40,7 @@ window.addEventListener("DOMContentLoaded", () => {
         role: getVal("role"),
         level: getVal("level") || "",
         position: getVal("position") || "",
-        createdAt: new Date()
+        createdAt: serverTimestamp()
       });
 
       alert("✅ Registration successful!");
