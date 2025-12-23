@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,7 +47,7 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>Full Name</th>
+        <th>Name</th>
         <th>Phone</th>
         <th>Age</th>
         <th>Gender</th>
@@ -65,7 +66,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-    
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyDbJ7ckY-O83Do2PRkwAUvrBTB9HXSlKJk",
       authDomain: "igil-online-registration.firebaseapp.com",
@@ -84,24 +85,28 @@
 
     let allUsers = [];
 
-    // 🔥 REAL-TIME LISTENER
+    
     onSnapshot(collection(db, 'registrations'), (snapshot) => {
       allUsers = [];
       snapshot.forEach(doc => {
         allUsers.push({ id: doc.id, ...doc.data() });
       });
 
+      // Sort by createdAt descending (newest first)
+      allUsers.sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
+
       totalCount.textContent = allUsers.length;
       renderTable(allUsers);
     });
 
+    // Render table rows
     function renderTable(data) {
       tableBody.innerHTML = '';
       data.forEach((user, index) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${index + 1}</td>
-          <td>${user.fullName || ''}</td>
+          <td>${user.name || ''}</td>
           <td>${user.phone || ''}</td>
           <td>${user.age || ''}</td>
           <td>${user.gender || ''}</td>
@@ -109,27 +114,27 @@
           <td>${user.role || ''}</td>
           <td>${user.level || ''}</td>
           <td>${user.position || ''}</td>
-          <td>${user.timestamp?.toDate?.().toLocaleString() || ''}</td>
+          <td>${user.createdAt?.toDate?.().toLocaleString() || ''}</td>
         `;
         tableBody.appendChild(tr);
       });
     }
 
-    // 🔍 SEARCH (name, phone, church)
+    // 🔍 Search
     searchInput.addEventListener('input', () => {
       const value = searchInput.value.toLowerCase();
       const filtered = allUsers.filter(u =>
-        (u.fullName || '').toLowerCase().includes(value) ||
+        (u.name || '').toLowerCase().includes(value) ||
         (u.phone || '').toLowerCase().includes(value) ||
         (u.localChurch || '').toLowerCase().includes(value)
       );
       renderTable(filtered);
     });
 
-    // 📤 EXPORT TO EXCEL (PC compatible)
+    // 📤 Export to Excel
     window.exportToExcel = function () {
       const exportData = allUsers.map(u => ({
-        FullName: u.fullName || '',
+        Name: u.name || '',
         Phone: u.phone || '',
         Age: u.age || '',
         Gender: u.gender || '',
@@ -137,7 +142,7 @@
         Role: u.role || '',
         Level: u.level || '',
         Position: u.position || '',
-        RegisteredAt: u.timestamp?.toDate?.().toLocaleString() || ''
+        RegisteredAt: u.createdAt?.toDate?.().toLocaleString() || ''
       }));
 
       const ws = XLSX.utils.json_to_sheet(exportData);
@@ -148,4 +153,4 @@
   </script>
 
 </body>
-  </html>
+</html>
