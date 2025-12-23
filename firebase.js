@@ -39,7 +39,6 @@ window.addEventListener("DOMContentLoaded", () => {
         role: getVal("role"),
         level: getVal("level") || "",
         position: getVal("position") || "",
-        timestamp: serverTimestamp()
         createdAt: new Date()
       });
 
