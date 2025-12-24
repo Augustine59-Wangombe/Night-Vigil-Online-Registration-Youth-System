@@ -71,6 +71,43 @@ body {
   text-align: center;
   color: rgb(0, 174, 255);
 }
+
+  .slider {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+
+    .slide.active {
+      opacity: 1;
+      position: relative;
+    }
+
+    .slide img {
+      width: 100%;
+      height: auto;  
+      display: block;
+      object-fit: cover;
+    }
+
+    .caption {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      font-size: 1.2rem;
+      border-radius: 6px;
 </style>
 
 <img class="Img1" src="images/Screenshot (126).png" alt="Welcoming Image">
@@ -172,4 +209,5 @@ setInterval(() => {
 <script type="module" src="script.js"></script>
 </body>
   </html>
+
 
