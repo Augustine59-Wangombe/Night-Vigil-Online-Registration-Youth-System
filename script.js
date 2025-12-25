@@ -3,19 +3,14 @@
    IMPORTS
 ================================ */
 import { db } from "./firebase.js";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 /* ===============================
    MAIN SCRIPT
 ================================ */
 document.addEventListener("DOMContentLoaded", function () {
 
-  /* ====== ROLE & LEADERSHIP UI LOGIC ====== */
+  // ----- ROLE & LEADERSHIP LOGIC -----
   const roleSelect = document.getElementById('role');
   const leadershipSection = document.getElementById('leadershipSection');
   const positionSection = document.getElementById('positionSection');
@@ -24,52 +19,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const parishPositions = [
     "Parish Coordinator",
-    "Parish vice coordinator",
+    "Parish Vice Coordinator",
     "Parish Secretary",
-    "Parish vice secretary",
+    "Parish Vice Secretary",
     "Parish Treasurer",
-    "Parish litergist",
-    "Parish vice litergist",
-    "Parish organing secretary",
-    "Parish games captain",
+    "Parish Liturgist",
+    "Parish Vice Liturgist",
+    "Parish Organizing Secretary",
+    "Parish Games Captain",
     "Parish Disciplinarian"
   ];
 
   const localPositions = [
     "Local Coordinator",
-    "Local vice coordinator",
+    "Local Vice Coordinator",
     "Local Secretary",
-    "Local vice secretary",
-    "Local litergist",
-    "Local vice litergist",
-    "Local organing secretary",
-    "Local games captain",
+    "Local Vice Secretary",
+    "Local Liturgist",
+    "Local Vice Liturgist",
+    "Local Organizing Secretary",
+    "Local Games Captain",
     "Local Disciplinarian"
   ];
 
   function populatePositions(level) {
     positionSelect.innerHTML = '<option value="">-- Choose Position --</option>';
-    const positions = level === 'parish' ? parishPositions :
-                      level === 'local' ? localPositions : [];
+    let positions = [];
+    if (level === 'parish') positions = parishPositions;
+    else if (level === 'local') positions = localPositions;
+
     positions.forEach(pos => {
       const option = document.createElement('option');
       option.value = pos;
       option.textContent = pos;
       positionSelect.appendChild(option);
     });
+
     positionSection.style.display = positions.length > 0 ? 'block' : 'none';
   }
 
-  roleSelect?.addEventListener('change', function () {
+  roleSelect.addEventListener('change', function () {
     if (this.value === 'leader') {
       leadershipSection.style.display = 'block';
       levelSelect.required = true;
       positionSelect.required = true;
 
-      // If no level selected, default to Parish
+      // default to parish if nothing selected
       if (!levelSelect.value) levelSelect.value = 'parish';
       populatePositions(levelSelect.value);
-
     } else {
       leadershipSection.style.display = 'none';
       positionSection.style.display = 'none';
@@ -78,22 +75,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  levelSelect?.addEventListener('change', function () {
+  levelSelect.addEventListener('change', function () {
     populatePositions(this.value);
   });
 
-  /* ====== FORM SUBMISSION ====== */
+  // ----- FORM SUBMISSION -----
   const form = document.getElementById("registerForm");
 
-  form?.addEventListener("submit", async function (e) {
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     try {
-      const userRef = doc(db, "registrations", document.getElementById("phone").value.trim());
+      const phone = document.getElementById("phone").value.trim();
+      const userRef = doc(db, "registrations", phone);
 
       await setDoc(userRef, {
         name: document.getElementById("fullName").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
+        phone: phone,
         age: document.getElementById("Age").value,
         gender: document.getElementById("Gender").value,
         localChurch: document.getElementById("localChurch").value,
@@ -105,7 +103,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       alert("✅ Registration successful!");
       form.reset();
-
       leadershipSection.style.display = 'none';
       positionSection.style.display = 'none';
     } catch (error) {
@@ -113,4 +110,5 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("❌ Error submitting registration. Try again.");
     }
   });
+
 });
