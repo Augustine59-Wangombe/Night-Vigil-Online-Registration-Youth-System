@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function populatePositions(level) {
     positionSelect.innerHTML = '<option value="">-- Choose Position --</option>';
     let positions = [];
+
     if (level === 'parish') positions = parishPositions;
     else if (level === 'local') positions = localPositions;
 
@@ -58,13 +59,14 @@ document.addEventListener("DOMContentLoaded", function () {
     positionSection.style.display = positions.length > 0 ? 'block' : 'none';
   }
 
+  // Show leadership when leader is selected
   roleSelect.addEventListener('change', function () {
     if (this.value === 'leader') {
       leadershipSection.style.display = 'block';
       levelSelect.required = true;
       positionSelect.required = true;
 
-      // default to parish if nothing selected
+      // Default to parish if nothing selected
       if (!levelSelect.value) levelSelect.value = 'parish';
       populatePositions(levelSelect.value);
     } else {
@@ -75,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  // Populate positions when level changes
   levelSelect.addEventListener('change', function () {
     populatePositions(this.value);
   });
