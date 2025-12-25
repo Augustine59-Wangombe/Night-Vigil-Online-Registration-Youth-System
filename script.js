@@ -3,77 +3,56 @@ import { db } from "./firebase.js";
 import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", function () {
-
-  // ----- ROLE & LEADERSHIP LOGIC -----
+ // LEADERSHIP LOGIC 
+  // -----------------------
   const roleSelect = document.getElementById('role');
   const leadershipSection = document.getElementById('leadershipSection');
+  const positionSection = document.getElementById('positionSection');
   const levelSelect = document.getElementById('level');
   const positionSelect = document.getElementById('position');
 
-  const parishPositions = [
-    "Parish Coordinator",
-    "Parish Vice Coordinator",
-    "Parish Secretary",
-    "Parish Vice Secretary",
-    "Parish Treasurer",
-    "Parish Liturgist",
-    "Parish Vice Liturgist",
-    "Parish Organizing Secretary",
-    "Parish Games Captain",
-    "Parish Disciplinarian"
-  ];
+  const parishPositions = ["Parish Coordinator", "Parish vice coordinator", "Parish Secretary", "Parish vice secretary", "Parish Treasurer", "Parish litergist", "Parish vice litergist", "Parish organing secretary", "Parish games captain", "Parish Disciplinarian"];
+  const localPositions = ["Local Coordinator", "Local vice coordinator", "Local Secretary", "Local vice secretary", "Local litergist", "Local vice litergist", "Local organing secretary", "Local games captain", "Local Disciplinarian"];
 
-  const localPositions = [
-    "Local Coordinator",
-    "Local Vice Coordinator",
-    "Local Secretary",
-    "Local Vice Secretary",
-    "Local Liturgist",
-    "Local Vice Liturgist",
-    "Local Organizing Secretary",
-    "Local Games Captain",
-    "Local Disciplinarian"
-  ];
-
-  function populatePositions(level) {
-    positionSelect.innerHTML = '<option value="">-- Choose Position --</option>';
-    let positions = [];
-    if (level === 'parish') positions = parishPositions;
-    else if (level === 'local') positions = localPositions;
-
-    positions.forEach(pos => {
-      const option = document.createElement('option');
-      option.value = pos;
-      option.textContent = pos;
-      positionSelect.appendChild(option);
+  if (roleSelect) {
+    roleSelect.addEventListener('change', function() {
+      if (this.value === 'leader') {
+        leadershipSection.style.display = 'block';
+      } else {
+        leadershipSection.style.display = 'none';
+        positionSection.style.display = 'none';
+      }
     });
-
-    // Show or hide position select
-    positionSelect.style.display = positions.length > 0 ? 'block' : 'none';
   }
 
-  // Show leadership section when role is "Leader"
-  roleSelect.addEventListener('change', function () {
-    if (this.value === 'leader') {
-      leadershipSection.style.display = 'block';
-      levelSelect.required = true;
-      positionSelect.required = true;
+  if (levelSelect) {
+    levelSelect.addEventListener('change', function() {
+      positionSelect.innerHTML = '<option value="">-- Choose Position --</option>';
 
-      // Default to parish if nothing selected
-      const currentLevel = levelSelect.value || 'parish';
-      levelSelect.value = currentLevel;
-      populatePositions(currentLevel);
-    } else {
-      leadershipSection.style.display = 'none';
-      levelSelect.required = false;
-      positionSelect.required = false;
-    }
-  });
+      if (this.value === 'parish') {
+        parishPositions.forEach(pos => {
+          const option = document.createElement('option');
+          option.value = pos;
+          option.textContent = pos;
+          positionSelect.appendChild(option);
+        });
+        positionSection.style.display = 'block';
+      } else if (this.value === 'local') {
+        localPositions.forEach(pos => {
+          const option = document.createElement('option');
+          option.value = pos;
+          option.textContent = pos;
+          positionSelect.appendChild(option);
+        });
+        positionSection.style.display = 'block';
+      } else {
+        positionSection.style.display = 'none';
+      }
+    });
+  }
+});
 
-  // Update positions when level changes
-  levelSelect.addEventListener('change', function () {
-    populatePositions(this.value);
-  });
+
 
   // ----- FORM SUBMISSION -----
   const form = document.getElementById("registerForm");
