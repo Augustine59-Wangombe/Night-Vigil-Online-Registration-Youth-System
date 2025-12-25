@@ -1,5 +1,7 @@
 
-import { db, doc, setDoc, getDoc, serverTimestamp } from "./firebase.js";
+
+
+import { db, doc, setDoc, serverTimestamp } from "./firebase.js";
 
 console.log("Leadership script loaded");
 
@@ -50,8 +52,9 @@ document.addEventListener("DOMContentLoaded", function () {
     levelSelect.addEventListener('change', function () {
       positionSelect.innerHTML = '<option value="">-- Choose Position --</option>';
 
-      const positions = this.value === 'parish' ? parishPositions :
-                        this.value === 'local' ? localPositions : [];
+      const positions =
+        this.value === 'parish' ? parishPositions :
+        this.value === 'local' ? localPositions : [];
 
       positions.forEach(pos => {
         const option = document.createElement('option');
@@ -60,52 +63,50 @@ document.addEventListener("DOMContentLoaded", function () {
         positionSelect.appendChild(option);
       });
 
-      if (positionSection) {
-        positionSection.style.display = positions.length ? 'block' : 'none';
-      }
+      if (positionSection) positionSection.style.display = positions.length ? 'block' : 'none';
     });
   }
 
   // FORM SUBMISSION
-  if (form) {
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault();
+if (form) {
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
+    try {
       const phone = document.getElementById("phone").value.trim();
       const userRef = doc(db, "registrations", phone);
 
-      try {
-        // DUPLICATE CHECK
-        const docSnap = await getDoc(userRef);
-        if (docSnap.exists()) {
-          alert("❌ Sorry, you are already registered!");
-          return;
-        }
-
-        // CREATE NEW REGISTRATION
-        await setDoc(userRef, {
-          name: document.getElementById("fullName").value.trim(),
-          phone,
-          age: document.getElementById("Age").value,
-          gender: document.getElementById("Gender").value,
-          localChurch: document.getElementById("localChurch").value,
-          role: roleSelect ? roleSelect.value : "",
-          level: levelSelect ? levelSelect.value || "" : "",
-          position: positionSelect ? positionSelect.value || "" : "",
-          createdAt: serverTimestamp()
-        });
-
-        alert("✅ Registration successful!");
-        form.reset();
-
-        if (leadershipSection) leadershipSection.style.display = 'none';
-        if (positionSection) positionSection.style.display = 'none';
-
-      } catch (error) {
-        console.error("Firestore error:", error);
-        alert("❌ Sorry, you are already registered!");
+      // Check if user already exists
+      const docSnap = await getDoc(userRef);
+      if (docSnap.exists()) {
+        alert("❌ Sorry, you are already registered!"); // Duplicate alert
+        return; // Stop submission
       }
-    });
-  }
+
+      // Create new registration
+      await setDoc(userRef, {
+        name: document.getElementById("fullName").value.trim(),
+        phone,
+        age: document.getElementById("Age").value,
+        gender: document.getElementById("Gender").value,
+        localChurch: document.getElementById("localChurch").value,
+        role: roleSelect ? roleSelect.value : "",
+        level: levelSelect ? levelSelect.value || "" : "",
+        position: positionSelect ? positionSelect.value || "" : "",
+        createdAt: serverTimestamp()
+      });
+
+      alert("✅ Registration successful!");
+      form.reset();
+
+      if (leadershipSection) leadershipSection.style.display = 'none';
+      if (positionSection) positionSection.style.display = 'none';
+
+    } catch (error) {
+      console.error("Firestore error:", error);
+      alert("❌ Sorry, you are already registered!");
+    }
+  });
+}
 
 });
