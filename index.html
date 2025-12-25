@@ -143,18 +143,17 @@ body {
       <option value="leader">Leader</option>
     </select>
 
+    <!-- LEADERSHIP SECTION -->
     <div id="leadershipSection" style="display:none;">
       <label>Level of Leadership:</label>
-      <select id="level" class="selec">
+      <select id="level" class="selec" required>
         <option value="">-- Choose Level --</option>
         <option value="parish">Parish Level</option>
         <option value="local">Local Level</option>
       </select>
-    </div>
 
-    <div id="positionSection" style="display:none;">
       <label>Leadership Position:</label>
-      <select id="position" class="selec">
+      <select id="position" class="selec" required>
         <option value="">-- Choose Position --</option>
       </select>
     </div>
@@ -187,22 +186,17 @@ body {
     <img src="images/9c4933ac921ad2a342bb3c46fb0e29e0.jpg" alt="Slide 3">
     <div class="caption">John 6:37  All those the Father gives me will come to me, and whoever comes to me I will never drive away. </div>
   </div>
-  <!-- Additional slides omitted for brevity -->
 </div>
 
 <script>
 const slides = document.querySelectorAll(".slide");
 let index = 0;
-
 function showSlide(i) {
   slides[index].classList.remove("active");
   index = (i + slides.length) % slides.length;
   slides[index].classList.add("active");
 }
-
-setInterval(() => {
-  showSlide(index + 1);
-}, 5000);
+setInterval(() => { showSlide(index + 1); }, 5000);
 </script>
 
 <script type="module" src="firebase.js"></script>
