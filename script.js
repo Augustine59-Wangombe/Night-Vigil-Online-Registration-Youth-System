@@ -2,7 +2,7 @@
 import { db } from "./firebase.js";
 import { doc, setDoc, serverTimestamp } from
   "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-
+console.log("Leadership script loaded");
 document.addEventListener("DOMContentLoaded", function () {
 
   // ELEMENTS
