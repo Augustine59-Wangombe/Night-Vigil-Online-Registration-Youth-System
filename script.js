@@ -1,16 +1,9 @@
 
-/* ===============================
-   IMPORTS
-================================ */
 import { db } from "./firebase.js";
 import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-/* ===============================
-   MAIN SCRIPT
-================================ */
 document.addEventListener("DOMContentLoaded", function () {
 
-  // ----- ROLE & LEADERSHIP LOGIC -----
   const roleSelect = document.getElementById('role');
   const leadershipSection = document.getElementById('leadershipSection');
   const positionSection = document.getElementById('positionSection');
@@ -58,15 +51,17 @@ document.addEventListener("DOMContentLoaded", function () {
     positionSection.style.display = positions.length > 0 ? 'block' : 'none';
   }
 
+  // Fix: make sure this runs even if no default selected
   roleSelect.addEventListener('change', function () {
     if (this.value === 'leader') {
       leadershipSection.style.display = 'block';
       levelSelect.required = true;
       positionSelect.required = true;
 
-      // default to parish if nothing selected
-      if (!levelSelect.value) levelSelect.value = 'parish';
-      populatePositions(levelSelect.value);
+      // Trigger populatePositions on current level value
+      const level = levelSelect.value || 'parish';
+      levelSelect.value = level;
+      populatePositions(level);
     } else {
       leadershipSection.style.display = 'none';
       positionSection.style.display = 'none';
@@ -79,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
     populatePositions(this.value);
   });
 
-  // ----- FORM SUBMISSION -----
   const form = document.getElementById("registerForm");
 
   form.addEventListener("submit", async function (e) {
