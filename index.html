@@ -121,6 +121,7 @@ body {
            pattern="[\+0-9]{10,15}" maxlength="15"
            oninput="this.value = this.value.replace(/[^0-9+]/g, '')"
            required />
+    <div id="phoneError" style="color:red; font-size:14px; margin-top:4px;"></div>
     <input id="Age" type="number" placeholder="Enter your Age" class="selec" required>
 
     <label>Choose Local Church</label>
@@ -248,6 +249,7 @@ setInterval(() => {
 <script type="module" src="script.js"></script>
 </body>
   </html>
+
 
 
 
