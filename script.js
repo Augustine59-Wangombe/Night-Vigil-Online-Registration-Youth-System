@@ -3,7 +3,6 @@
    IMPORTS
 ================================ */
 import { db } from "./firebase.js";
-
 import {
   doc,
   getDoc,
@@ -16,8 +15,7 @@ import {
 ================================ */
 document.addEventListener("DOMContentLoaded", function () {
 
-  /* ====== ROLE & LEADERSHIP UI LOGIC (YOUR ORIGINAL CODE) ====== */
-
+  /* ====== ROLE & LEADERSHIP UI LOGIC ====== */
   const roleSelect = document.getElementById('role');
   const leadershipSection = document.getElementById('leadershipSection');
   const positionSection = document.getElementById('positionSection');
@@ -49,11 +47,29 @@ document.addEventListener("DOMContentLoaded", function () {
     "Local Disciplinarian"
   ];
 
+  function populatePositions(level) {
+    positionSelect.innerHTML = '<option value="">-- Choose Position --</option>';
+    const positions = level === 'parish' ? parishPositions :
+                      level === 'local' ? localPositions : [];
+    positions.forEach(pos => {
+      const option = document.createElement('option');
+      option.value = pos;
+      option.textContent = pos;
+      positionSelect.appendChild(option);
+    });
+    positionSection.style.display = positions.length > 0 ? 'block' : 'none';
+  }
+
   roleSelect?.addEventListener('change', function () {
     if (this.value === 'leader') {
       leadershipSection.style.display = 'block';
       levelSelect.required = true;
       positionSelect.required = true;
+
+      // If no level selected, default to Parish
+      if (!levelSelect.value) levelSelect.value = 'parish';
+      populatePositions(levelSelect.value);
+
     } else {
       leadershipSection.style.display = 'none';
       positionSection.style.display = 'none';
@@ -63,45 +79,24 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   levelSelect?.addEventListener('change', function () {
-    positionSelect.innerHTML = '<option value="">-- Choose Position --</option>';
-
-    const positions =
-      this.value === 'parish' ? parishPositions :
-      this.value === 'local' ? localPositions : [];
-
-    positions.forEach(pos => {
-      const option = document.createElement('option');
-      option.value = pos;
-      option.textContent = pos;
-      positionSelect.appendChild(option);
-    });
-
-    positionSection.style.display = positions.length > 0 ? 'block' : 'none';
+    populatePositions(this.value);
   });
 
   /* ====== PHONE NORMALIZATION ====== */
   function normalizePhone(input) {
     let phone = input.trim().replace(/\s+/g, '').replace('+', '');
-
-    if (phone.startsWith('0')) {
-      phone = '254' + phone.slice(1);
-    }
-
-    if (phone.length === 9 && (phone.startsWith('7') || phone.startsWith('1'))) {
-      phone = '254' + phone;
-    }
-
+    if (phone.startsWith('0')) phone = '254' + phone.slice(1);
+    if (phone.length === 9 && (phone.startsWith('7') || phone.startsWith('1'))) phone = '254' + phone;
     return phone;
   }
 
-  /* ====== OPTIONAL PHONE VALIDATION ====== */
+  /* ====== PHONE VALIDATION ====== */
   function isValidKenyanPhone(phone) {
     return /^254(7|1)\d{8}$/.test(phone);
   }
 
   /* ====== FORM SUBMISSION + DUPLICATE CHECK ====== */
-
-  const form = document.getElementById("registrationForm");
+  const form = document.getElementById("registerForm");
 
   form?.addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -115,21 +110,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     try {
-      // 🔐 CHECK FOR DUPLICATE PHONE
+      // Check for duplicate phone
       const userRef = doc(db, "registrations", phone);
       const existingUser = await getDoc(userRef);
 
       if (existingUser.exists()) {
-        alert("❌ This phone number is already registered.");
+        alert("ℹ️ The system has already registered you.");
         return;
       }
 
-      // ✅ SAVE NEW REGISTRATION
+      // Save new registration
       await setDoc(userRef, {
-        name: document.getElementById("name").value.trim(),
+        name: document.getElementById("fullName").value.trim(),
         phone: phone,
-        age: document.getElementById("age").value,
-        gender: document.getElementById("gender").value,
+        age: document.getElementById("Age").value,
+        gender: document.getElementById("Gender").value,
         localChurch: document.getElementById("localChurch").value,
         role: roleSelect.value,
         level: levelSelect.value || "",
@@ -142,11 +137,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       leadershipSection.style.display = 'none';
       positionSection.style.display = 'none';
-
     } catch (error) {
       console.error(error);
       alert("❌ Error submitting registration. Try again.");
     }
   });
-
 });
