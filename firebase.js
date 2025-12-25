@@ -21,6 +21,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// Export Firestore and helpers so other scripts can import them
+export { db, collection, addDoc, serverTimestamp };
+
 window.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("registerForm");
   if (!form) return;
