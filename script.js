@@ -49,15 +49,20 @@ document.addEventListener("DOMContentLoaded", function () {
   if (levelSelect) {
     levelSelect.addEventListener('change', function () {
       positionSelect.innerHTML = '<option value="">-- Choose Position --</option>';
+
       const positions = this.value === 'parish' ? parishPositions :
                         this.value === 'local' ? localPositions : [];
+
       positions.forEach(pos => {
         const option = document.createElement('option');
         option.value = pos;
         option.textContent = pos;
         positionSelect.appendChild(option);
       });
-      if (positionSection) positionSection.style.display = positions.length ? 'block' : 'none';
+
+      if (positionSection) {
+        positionSection.style.display = positions.length ? 'block' : 'none';
+      }
     });
   }
 
@@ -70,14 +75,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const userRef = doc(db, "registrations", phone);
 
       try {
-        // Duplicate check
+        // DUPLICATE CHECK
         const docSnap = await getDoc(userRef);
         if (docSnap.exists()) {
           alert("❌ Sorry, you are already registered!");
           return;
         }
 
-        // Register user
+        // CREATE NEW REGISTRATION
         await setDoc(userRef, {
           name: document.getElementById("fullName").value.trim(),
           phone,
@@ -92,12 +97,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         alert("✅ Registration successful!");
         form.reset();
+
         if (leadershipSection) leadershipSection.style.display = 'none';
         if (positionSection) positionSection.style.display = 'none';
 
       } catch (error) {
         console.error("Firestore error:", error);
-        alert("❌ Error submitting registration. Please try again.");
+        alert("❌ Sorry, you are already registered!");
       }
     });
   }
