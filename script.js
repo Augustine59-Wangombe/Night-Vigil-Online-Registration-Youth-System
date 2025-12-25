@@ -55,22 +55,18 @@ document.addEventListener("DOMContentLoaded", function () {
       positionSelect.appendChild(option);
     });
 
-    // Show the position section if there are positions
     positionSection.style.display = positions.length > 0 ? 'block' : 'none';
   }
 
-  // Role change listener
   roleSelect.addEventListener('change', function () {
     if (this.value === 'leader') {
       leadershipSection.style.display = 'block';
       levelSelect.required = true;
       positionSelect.required = true;
 
-      // Default to parish if nothing selected
+      // default to parish if nothing selected
       if (!levelSelect.value) levelSelect.value = 'parish';
-      
-      populatePositions(levelSelect.value); // Populate positions based on level
-      positionSection.style.display = 'block'; // Force show position dropdown
+      populatePositions(levelSelect.value);
     } else {
       leadershipSection.style.display = 'none';
       positionSection.style.display = 'none';
@@ -79,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Level change listener
   levelSelect.addEventListener('change', function () {
     populatePositions(this.value);
   });
@@ -108,7 +103,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       alert("✅ Registration successful!");
       form.reset();
-
       leadershipSection.style.display = 'none';
       positionSection.style.display = 'none';
     } catch (error) {
