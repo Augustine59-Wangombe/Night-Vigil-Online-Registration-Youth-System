@@ -1,207 +1,360 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="google-site-verification" content="Zn5SE5OY2a8pjlxWB5DXE9zfUo5QjgPcYT4Rn33jnB4" />
-  <title>Night Vigil Online Registration System</title>
-</head>
-<body>
-
-<style>
+<!DOCTYPE html><html lang="en"><head>  <meta charset="UTF-8">  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <meta name="google-site-verification" content="Zn5SE5OY2a8pjlxWB5DXE9zfUo5QjgPcYT4Rn33jnB4" />  <title>Night Vigil Online Registration System</title></head><body><style>
+  
 .Img1{
+  
   height: auto;
+  
   width: 100%;
+  
   max-width: 1200px;
+  
 }
+  
 
+  
 .form-box {
+  
   width:420px;
+  
   background: #ffffff;
+  
   padding:24px;
+  
   border-radius: 10px;
+  
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  
   position: relative;
+  
   transform: translateY(40px);
+  
 }
+  
 
+  
 .register {
+  
   width: 100%;
+  
   background-color: #007bff;
+  
   color: rgb(255, 255, 255);
+  
   border: none;
+  
   padding: 12px;
+  
   border-radius: 10px;
+  
   font-size: 16px;
+  
   cursor: pointer;
+  
   transition: background-color 0.3s;
+  
 }
+  
 
+  
 .selec {
+  
   width: 100%;
+  
   padding: 12px;
+  
   margin: 10px 0;
+  
   border: 1px solid #ccc;
+  
   border-radius: 10px;
+  
   font-size: 15px;
+  
   outline: none;
+  
   transition: border 0.3s;
+  
 }
+  
 
+  
 @media screen and (max-width: 480px) {
+  
   .form-box {
+  
     width: 90%;
+  
     top: -70px;
+  
     padding: 25px;
+  
   }
+  
 }
+  
 
+  
 body {
+  
   margin: 0;
+  
   padding: 0;
+  
   font-family: "Poppins", sans-serif;
+  
   background-color: #f5f6fa;
+  
   display: flex;
+  
   flex-direction: column;
+  
   align-items: center;
+  
 }
+  
 
+  
 .H2{
+  
   text-align: center;
+  
   color: rgb(0, 174, 255);
+  
 }
+  
 
-.slider {
-  position: relative;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  overflow: hidden;
-}
+  
+  .slider {
+  
+      position: relative;
+  
+      width: 100%;
+  
+      max-width: 1200px;
+  
+      margin: 0 auto;
+  
+      overflow: hidden;
+  
+    }
+  
 
-.slide {
-  position: absolute;
-  width: 100%;
-  opacity: 0;
-  transition: opacity 1.5s ease-in-out;
-}
+  
+    .slide {
+  
+      position: absolute;
+  
+      width: 100%;
+  
+      opacity: 0;
+  
+      transition: opacity 1.5s ease-in-out;
+  
+    }
+  
 
-.slide.active {
-  opacity: 1;
-  position: relative;
-}
+  
+    .slide.active {
+  
+      opacity: 1;
+  
+      position: relative;
+  
+    }
+  
 
-.slide img {
-  width: 100%;
-  height: auto;  
-  display: block;
-  object-fit: cover;
-  transform: translateY(50px);
-}
+  
+    .slide img {
+  
+      width: 100%;
+  
+      height: auto;  
+  
+      display: block;
+  
+      object-fit: cover;
+  
+      transform: translateY(50px);
+  
+    }
+  
 
-.caption {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  padding: 10px 20px;
-  background: rgba(0,0,0,0.6);
-  color: white;
-  font-size: 1.2rem;
-  border-radius: 6px;
-}
+  
+    .caption {
+  
+      position: absolute;
+  
+      bottom: 20px;
+  
+      left: 20px;
+  
+      padding: 10px 20px;
+  
+      background: rgba(0,0,0,0.6);
+  
+      color: white;
+  
+      font-size: 1.2rem;
+  
+      border-radius: 6px;
+  
+</style><img class="Img1" src="images/Screenshot (126).png" alt="Welcoming Image"><div class="form-box" id="register-form">  <form id="registerForm"><h2 class="H2">Register</h2>
 
-.P1{
-    font-size: 25px;
-    color: rgb(55, 24, 117);
-    padding-left:15px;
-}
-</style>
+<input id="fullName" type="text" placeholder="Full Name" class="selec" required>
 
-<img class="Img1" src="images/Screenshot (126).png" alt="Welcoming Image">
+<input class="selec" id="phone" type="tel" placeholder="Phone Number"
 
-<div class="form-box" id="register-form">
-  <form id="registerForm">
-    <h2 class="H2">Register</h2>
-    <input id="fullName" type="text" placeholder="Full Name" class="selec" required>
-    <input class="selec" id="phone" type="tel" placeholder="Phone Number"
-           pattern="[\+0-9]{10,15}" maxlength="15"
-           oninput="this.value = this.value.replace(/[^0-9+]/g, '')"
-           required />
-    <input id="Age" type="number" placeholder="Enter your Age" class="selec" required>
+       pattern="[\+0-9]{10,15}" maxlength="15"
 
-    <label>Choose Local Church</label>
-    <select name="Local Church" id="localChurch" class="selec" required>
-      <option value="St.Paul">St.Paul</option>
-      <option value="St.Lwanga">St.Lwanga</option>
-    </select>
+       oninput="this.value = this.value.replace(/[^0-9+]/g, '')"
 
-    <label>Role:</label>
-    <select id="role" class="selec" required>
-      <option value="">-- Choose Role --</option>
-      <option value="member">Member</option>
-      <option value="leader">Leader</option>
-    </select>
+       required />
 
-    <div id="leadershipSection" style="display:none;">
-          <label>Level of Leadership:</label>
-          <select id="level">
-            <option value="">-- Choose Level --</option>
-            <option value="parish">Parish Level</option>
-            <option value="local">Local Level</option>
-          </select>
-        </div>
+<input id="Age" type="number" placeholder="Enter your Age" class="selec" required>
 
-        <div id="positionSection" style="display:none;">
-          <label>Leadership Position:</label>
-          <select id="position">
-            <option value="">-- Choose Position --</option>
-          </select>
-        </div>
 
-    <label>Gender</label>
-    <select name="Gender" id="Gender" class="selec" required>
-      <option value="Male">Male</option>
-      <option value="Female">Female</option>
-    </select>
 
-    <button class="register" type="submit">Register</button>
-  </form>
+<label>Choose Local Church</label>
+
+<select name="Local Church" id="localChurch" class="selec" required>
+
+  <option value="St.Paul">St.Paul</option>
+
+  <option value="St.Lwanga">St.Lwanga</option>
+
+</select>
+
+
+
+<label>Role:</label>
+
+<select id="role" class="selec" required>
+
+  <option value="">-- Choose Role --</option>
+
+  <option value="member">Member</option>
+
+  <option value="leader">Leader</option>
+
+</select>
+
+
+
+<div id="leadershipSection" style="display:none;">
+
+  <label>Level of Leadership:</label>
+
+  <select id="level" class="selec">
+
+    <option value="">-- Choose Level --</option>
+
+    <option value="parish">Parish Level</option>
+
+    <option value="local">Local Level</option>
+
+  </select>
+
 </div>
-<br>
 
-<p class="P1">After successful registration you are required to come with Ksh.100 on December 31, 2025 so that you will be verified from the system.</p>
 
-<div class="slider">
-  <div class="slide active">
-    <img src="images/divine-mercy-jesus-digital-painting-done-photoshop-182548279.jpg" alt="Slide 1">
-    <div class="caption">Psalms 147:3 He heals the brokenhearted and binds up their wounds.</div>
-  </div>
 
-  <div class="slide">
-    <img src="images/Screenshot (124)_023050.png" alt="Slide 2">
-    <div class="caption">Hope does not disappoint</div>
-  </div>
+<div id="positionSection" style="display:none;">
 
-  <div class="slide">
-    <img src="images/9c4933ac921ad2a342bb3c46fb0e29e0.jpg" alt="Slide 3">
-    <div class="caption">John 6:37  All those the Father gives me will come to me, and whoever comes to me I will never drive away. </div>
-  </div>
+  <label>Leadership Position:</label>
+
+  <select id="position" class="selec">
+
+    <option value="">-- Choose Position --</option>
+
+  </select>
+
 </div>
 
-<script>
+
+
+<label>Gender</label>
+
+<select name="Gender" id="Gender" class="selec" required>
+
+  <option value="Male">Male</option>
+
+  <option value="Female">Female</option>
+
+</select>
+
+
+
+<button class="register" type="submit">Register</button>
+
+  </form></div><br>  <style>
+  
+    .P1{
+  
+        font-size: 25px;
+  
+        color: rgb(55, 24, 117);
+  
+        padding-left:15px;
+  
+        
+  
+    }
+  
+
+  
+    </style><p class="P1">After successful registration you are required to come with Ksh.100 on December 31, 2025 so that you will be verified from the system.</p>
+
+<div class="slider">  <div class="slide active"><img src="images/divine-mercy-jesus-digital-painting-done-photoshop-182548279.jpg" alt="Slide 1">
+
+<div class="caption">Psalms 147:3 He heals the brokenhearted and binds up their wounds.</div>
+
+  </div>  <div class="slide"><img src="images/Screenshot (124)_023050.png" alt="Slide 2">
+
+<div class="caption">Hope does not disappoint</div>
+
+  </div>  <div class="slide"><img src="images/9c4933ac921ad2a342bb3c46fb0e29e0.jpg" alt="Slide 3">
+
+<div class="caption">John 6:37  All those the Father gives me will come to me, and whoever comes to me I will never drive away. </div>
+
+  </div>  <div class="slide"><img src="images/178782-3840x2160-desktop-4k-christmas-wallpaper.jpg"alt="Slide 4">
+
+<div class="caption">Philippians 4:13  I can do all this through him who gives me strength.</div>
+
+</div>  <div class="slide"><img src="images/christmas-wallpapers-32.jpg"alt="Slide 5">
+
+<div class="caption">Merry Christmas and a Happy New Year.</div>
+
+</div>   <div class="slide"><img src="images/file_0000000034e871fd91b5d5af922e7037.png"alt="Slide 6">
+
+   <div class="caption">New Year with God's Favour.</div>   </div>  <div class="slide"><img src="images/christmas-wallpaper-25.jpg"alt="Slide 7">
+
+<div class="caption">You don't have to be great to start but you have to start to be great.</div>
+
+</div><script>
+  
 const slides = document.querySelectorAll(".slide");
+  
 let index = 0;
+  
+
+  
 function showSlide(i) {
+  
   slides[index].classList.remove("active");
+  
   index = (i + slides.length) % slides.length;
+  
   slides[index].classList.add("active");
+  
 }
-setInterval(() => { showSlide(index + 1); }, 5000);
-</script>
+  
 
-<script type="module" src="firebase.js"></script>
-<script type="module" src="script.js"></script>
-</body>
-</html>
-
+  
+setInterval(() => {
+  
+  showSlide(index + 1);
+  
+}, 5000);
+  
+</script><script type="module" src="firebase.js"></script><script type="module" src="script.js"></script></body>  </html>
