@@ -5,6 +5,7 @@ import { doc, setDoc, serverTimestamp } from
 
 document.addEventListener("DOMContentLoaded", function () {
 
+  // ELEMENTS
   const form = document.getElementById("registerForm");
   const roleSelect = document.getElementById('role');
   const leadershipSection = document.getElementById('leadershipSection');
