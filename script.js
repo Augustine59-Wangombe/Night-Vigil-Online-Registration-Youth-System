@@ -102,7 +102,7 @@ if (form) {
 
     } catch (error) {
       console.error("Firestore error:", error);
-      alert("❌ Error submitting registration.");
+      alert("❌ Sorry, you are already registered!");
     }
   });
 }
