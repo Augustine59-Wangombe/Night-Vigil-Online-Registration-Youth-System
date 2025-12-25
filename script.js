@@ -1,10 +1,21 @@
 
+/* ===============================
+   IMPORTS
+================================ */
 import { db } from "./firebase.js";
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
+/* ===============================
+   MAIN SCRIPT
+================================ */
 document.addEventListener("DOMContentLoaded", function () {
 
-  // ROLE & LEADERSHIP LOGIC
+  /* ====== ROLE & LEADERSHIP UI LOGIC ====== */
   const roleSelect = document.getElementById('role');
   const leadershipSection = document.getElementById('leadershipSection');
   const positionSection = document.getElementById('positionSection');
@@ -54,8 +65,11 @@ document.addEventListener("DOMContentLoaded", function () {
       leadershipSection.style.display = 'block';
       levelSelect.required = true;
       positionSelect.required = true;
+
+      // If no level selected, default to Parish
       if (!levelSelect.value) levelSelect.value = 'parish';
       populatePositions(levelSelect.value);
+
     } else {
       leadershipSection.style.display = 'none';
       positionSection.style.display = 'none';
@@ -68,14 +82,16 @@ document.addEventListener("DOMContentLoaded", function () {
     populatePositions(this.value);
   });
 
-  // FORM SUBMISSION
+  /* ====== FORM SUBMISSION ====== */
   const form = document.getElementById("registerForm");
 
   form?.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     try {
-      await addDoc(collection(db, "registrations"), {
+      const userRef = doc(db, "registrations", document.getElementById("phone").value.trim());
+
+      await setDoc(userRef, {
         name: document.getElementById("fullName").value.trim(),
         phone: document.getElementById("phone").value.trim(),
         age: document.getElementById("Age").value,
@@ -92,11 +108,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       leadershipSection.style.display = 'none';
       positionSection.style.display = 'none';
-
     } catch (error) {
       console.error(error);
       alert("❌ Error submitting registration. Try again.");
     }
   });
-
 });
