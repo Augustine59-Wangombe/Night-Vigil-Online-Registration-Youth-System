@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function () {
   function populatePositions(level) {
     positionSelect.innerHTML = '<option value="">-- Choose Position --</option>';
     let positions = [];
-
     if (level === 'parish') positions = parishPositions;
     else if (level === 'local') positions = localPositions;
 
@@ -56,10 +55,11 @@ document.addEventListener("DOMContentLoaded", function () {
       positionSelect.appendChild(option);
     });
 
+    // Show the position section if there are positions
     positionSection.style.display = positions.length > 0 ? 'block' : 'none';
   }
 
-  // Show leadership when leader is selected
+  // Role change listener
   roleSelect.addEventListener('change', function () {
     if (this.value === 'leader') {
       leadershipSection.style.display = 'block';
@@ -68,7 +68,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Default to parish if nothing selected
       if (!levelSelect.value) levelSelect.value = 'parish';
-      populatePositions(levelSelect.value);
+      
+      populatePositions(levelSelect.value); // Populate positions based on level
+      positionSection.style.display = 'block'; // Force show position dropdown
     } else {
       leadershipSection.style.display = 'none';
       positionSection.style.display = 'none';
@@ -77,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Populate positions when level changes
+  // Level change listener
   levelSelect.addEventListener('change', function () {
     populatePositions(this.value);
   });
@@ -106,6 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       alert("✅ Registration successful!");
       form.reset();
+
       leadershipSection.style.display = 'none';
       positionSection.style.display = 'none';
     } catch (error) {
