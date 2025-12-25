@@ -4,9 +4,9 @@ import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs
 
 document.addEventListener("DOMContentLoaded", function () {
 
+  // ----- ROLE & LEADERSHIP LOGIC -----
   const roleSelect = document.getElementById('role');
   const leadershipSection = document.getElementById('leadershipSection');
-  const positionSection = document.getElementById('positionSection');
   const levelSelect = document.getElementById('level');
   const positionSelect = document.getElementById('position');
 
@@ -48,32 +48,34 @@ document.addEventListener("DOMContentLoaded", function () {
       positionSelect.appendChild(option);
     });
 
-    positionSection.style.display = positions.length > 0 ? 'block' : 'none';
+    // Show or hide position select
+    positionSelect.style.display = positions.length > 0 ? 'block' : 'none';
   }
 
-  // Fix: make sure this runs even if no default selected
+  // Show leadership section when role is "Leader"
   roleSelect.addEventListener('change', function () {
     if (this.value === 'leader') {
       leadershipSection.style.display = 'block';
       levelSelect.required = true;
       positionSelect.required = true;
 
-      // Trigger populatePositions on current level value
-      const level = levelSelect.value || 'parish';
-      levelSelect.value = level;
-      populatePositions(level);
+      // Default to parish if nothing selected
+      const currentLevel = levelSelect.value || 'parish';
+      levelSelect.value = currentLevel;
+      populatePositions(currentLevel);
     } else {
       leadershipSection.style.display = 'none';
-      positionSection.style.display = 'none';
       levelSelect.required = false;
       positionSelect.required = false;
     }
   });
 
+  // Update positions when level changes
   levelSelect.addEventListener('change', function () {
     populatePositions(this.value);
   });
 
+  // ----- FORM SUBMISSION -----
   const form = document.getElementById("registerForm");
 
   form.addEventListener("submit", async function (e) {
@@ -98,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("✅ Registration successful!");
       form.reset();
       leadershipSection.style.display = 'none';
-      positionSection.style.display = 'none';
+      positionSelect.style.display = 'block';
     } catch (error) {
       console.error(error);
       alert("❌ Error submitting registration. Try again.");
