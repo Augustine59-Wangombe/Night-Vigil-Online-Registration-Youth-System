@@ -143,20 +143,21 @@ body {
       <option value="leader">Leader</option>
     </select>
 
-    <!-- LEADERSHIP SECTION -->
     <div id="leadershipSection" style="display:none;">
-      <label>Level of Leadership:</label>
-      <select id="level" class="selec" required>
-        <option value="">-- Choose Level --</option>
-        <option value="parish">Parish Level</option>
-        <option value="local">Local Level</option>
-      </select>
+          <label>Level of Leadership:</label>
+          <select id="level">
+            <option value="">-- Choose Level --</option>
+            <option value="parish">Parish Level</option>
+            <option value="local">Local Level</option>
+          </select>
+        </div>
 
-      <label>Leadership Position:</label>
-      <select id="position" class="selec" required>
-        <option value="">-- Choose Position --</option>
-      </select>
-    </div>
+        <div id="positionSection" style="display:none;">
+          <label>Leadership Position:</label>
+          <select id="position">
+            <option value="">-- Choose Position --</option>
+          </select>
+        </div>
 
     <label>Gender</label>
     <select name="Gender" id="Gender" class="selec" required>
@@ -203,3 +204,4 @@ setInterval(() => { showSlide(index + 1); }, 5000);
 <script type="module" src="script.js"></script>
 </body>
 </html>
+
