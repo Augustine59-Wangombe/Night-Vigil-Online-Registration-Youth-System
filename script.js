@@ -103,7 +103,7 @@ if (form && !form.dataset.bound) {
 
     } catch (error) {
       console.error("Firestore error:", error);
-      alert("❌ Sorry, you are already registered!");
+      
     } finally {
       isSubmitting = false; // 🔓 UNLOCK
     }
