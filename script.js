@@ -76,12 +76,7 @@ if (form) {
       const phone = document.getElementById("phone").value.trim();
       const userRef = doc(db, "registrations", phone);
 
-      // Check if user already exists
-      const docSnap = await getDoc(userRef);
-      if (docSnap.exists()) {
-        alert("❌ Sorry, you are already registered!"); // Duplicate alert
-        return; // Stop submission
-      }
+      
 
       // Create new registration
       await setDoc(userRef, {
