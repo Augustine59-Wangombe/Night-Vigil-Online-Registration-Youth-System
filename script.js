@@ -68,37 +68,39 @@ document.addEventListener("DOMContentLoaded", () => {
   // 🚀 SUBMIT (guaranteed once)
   let isSubmitting = false;
 
-form.onsubmit = async (e) => {
-  e.preventDefault();
+  form.onsubmit = async (e) => {
+    e.preventDefault();
 
-  if (isSubmitting) return;
-  isSubmitting = true;
+    if (isSubmitting) return;
+    isSubmitting = true;
 
-  try {
-    const phone = document.getElementById("phone").value.trim();
-    const userRef = doc(db, "registrations", phone);
+    try {
+      const phone = document.getElementById("phone").value.trim();
+      const userRef = doc(db, "registrations", phone);
 
-    await setDoc(userRef, {
-      name: document.getElementById("fullName").value.trim(),
-      phone,
-      age: document.getElementById("Age").value,
-      gender: document.getElementById("Gender").value,
-      localChurch: document.getElementById("localChurch").value,
-      role: roleSelect.value,
-      level: levelSelect.value || "",
-      position: positionSelect.value || "",
-      createdAt: serverTimestamp()
-    });
+      await setDoc(userRef, {
+        name: document.getElementById("fullName").value.trim(),
+        phone,
+        age: document.getElementById("Age").value,
+        gender: document.getElementById("Gender").value,
+        localChurch: document.getElementById("localChurch").value,
+        role: roleSelect.value,
+        level: levelSelect.value || "",
+        position: positionSelect.value || "",
+        createdAt: serverTimestamp()
+      });
 
-    alert("✅ Registration successful!");
-    form.reset();
+      alert("✅ Registration successful!");
+      form.reset();
 
-    leadershipSection.style.display = 'none';
-    positionSection.style.display = 'none';
+      leadershipSection.style.display = 'none';
+      positionSection.style.display = 'none';
 
-  } catch (err) {
-    console.error("Firestore error:", err);
-  } finally {
-    isSubmitting = false;
-  }
-};
+    } catch (err) {
+      console.error("Firestore error:", err);
+    } finally {
+      isSubmitting = false;
+    }
+  };
+
+}); // ✅ THIS WAS MISSING
