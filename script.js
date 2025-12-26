@@ -1,11 +1,13 @@
 
-
-
 import { db, doc, setDoc, serverTimestamp } from "./firebase.js";
 
 console.log("Leadership script loaded");
 
+document.addEventListener("DOMContentLoaded", () => {
 
+  // 🚫 GLOBAL GUARD — prevents double execution
+  if (window.__registerFormBound) return;
+  window.__registerFormBound = true;
 
   // ELEMENTS
   const form = document.getElementById("registerForm");
@@ -31,52 +33,45 @@ console.log("Leadership script loaded");
     "Local Disciplinarian"
   ];
 
-  // HIDE SECTIONS ON PAGE LOAD
-  if (leadershipSection) leadershipSection.style.display = 'none';
-  if (positionSection) positionSection.style.display = 'none';
+  // HIDE SECTIONS
+  leadershipSection.style.display = 'none';
+  positionSection.style.display = 'none';
 
   // ROLE CHANGE
-  if (roleSelect) {
-    roleSelect.addEventListener('change', function () {
-      if (this.value.toLowerCase() === 'leader') {
-        if (leadershipSection) leadershipSection.style.display = 'block';
-      } else {
-        if (leadershipSection) leadershipSection.style.display = 'none';
-        if (positionSection) positionSection.style.display = 'none';
-      }
-    });
-  }
+  roleSelect.addEventListener('change', function () {
+    if (this.value.toLowerCase() === 'leader') {
+      leadershipSection.style.display = 'block';
+    } else {
+      leadershipSection.style.display = 'none';
+      positionSection.style.display = 'none';
+    }
+  });
 
   // LEVEL CHANGE
-  if (levelSelect) {
-    levelSelect.addEventListener('change', function () {
-      positionSelect.innerHTML = '<option value="">-- Choose Position --</option>';
+  levelSelect.addEventListener('change', function () {
+    positionSelect.innerHTML = '<option value="">-- Choose Position --</option>';
 
-      const positions =
-        this.value === 'parish' ? parishPositions :
-        this.value === 'local' ? localPositions : [];
+    const positions =
+      this.value === 'parish' ? parishPositions :
+      this.value === 'local' ? localPositions : [];
 
-      positions.forEach(pos => {
-        const option = document.createElement('option');
-        option.value = pos;
-        option.textContent = pos;
-        positionSelect.appendChild(option);
-      });
-
-      if (positionSection) positionSection.style.display = positions.length ? 'block' : 'none';
+    positions.forEach(pos => {
+      const option = document.createElement('option');
+      option.value = pos;
+      option.textContent = pos;
+      positionSelect.appendChild(option);
     });
-  }
 
-  // FORM SUBMISSION
-if (form && !form.dataset.bound) {
+    positionSection.style.display = positions.length ? 'block' : 'none';
+  });
 
-  form.dataset.bound = "true"; // 🔒 PREVENT DOUBLE BINDING
+  // 🚀 SUBMIT (guaranteed once)
   let isSubmitting = false;
 
-  form.addEventListener("submit", async function (e) {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    if (isSubmitting) return; // 🚫 STOP second submission
+    if (isSubmitting) return;
     isSubmitting = true;
 
     try {
@@ -89,24 +84,23 @@ if (form && !form.dataset.bound) {
         age: document.getElementById("Age").value,
         gender: document.getElementById("Gender").value,
         localChurch: document.getElementById("localChurch").value,
-        role: roleSelect ? roleSelect.value : "",
-        level: levelSelect ? levelSelect.value || "" : "",
-        position: positionSelect ? positionSelect.value || "" : "",
+        role: roleSelect.value,
+        level: levelSelect.value || "",
+        position: positionSelect.value || "",
         createdAt: serverTimestamp()
       });
 
       alert("✅ Registration successful!");
       form.reset();
 
-      if (leadershipSection) leadershipSection.style.display = 'none';
-      if (positionSection) positionSection.style.display = 'none';
+      leadershipSection.style.display = 'none';
+      positionSection.style.display = 'none';
 
-    } catch (error) {
-      console.error("Firestore error:", error);
-      
+    } catch (err) {
+      console.error("Firestore error:", err);
     } finally {
-      isSubmitting = false; // 🔓 UNLOCK
+      isSubmitting = false;
     }
   });
 
-}       
+});
