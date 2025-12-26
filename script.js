@@ -1,5 +1,5 @@
 
-import { db, collection, serverTimestamp, addDoc } from "./firebase.js";
+import { db, collection, serverTimestamp, addDoc, query, where, getDocs } from "./firebase.js";
 
 console.log("Leadership script loaded");
 
@@ -76,10 +76,22 @@ document.addEventListener("DOMContentLoaded", () => {
     isSubmitting = true;
 
     try {
+      const phone = document.getElementById("phone").value.trim();
+
+      // ❌ Check if user already exists
+      const q = query(collection(db, "registrations"), where("phone", "==", phone));
+      const snapshot = await getDocs(q);
+
+      if (!snapshot.empty) {
+        alert("❌ This phone number is already registered!");
+        isSubmitting = false;
+        return;
+      }
+
       // Gather form values
       const formData = {
         name: document.getElementById("fullName").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
+        phone,
         age: document.getElementById("Age").value,
         gender: document.getElementById("Gender").value,
         localChurch: document.getElementById("localChurch").value,
