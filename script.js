@@ -69,16 +69,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // FORM SUBMISSION
 if (form) {
+
+  let isSubmitting = false; // 🔒 LOCK
+
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
+
+    if (isSubmitting) return; // 🚫 STOP second submission
+    isSubmitting = true;
 
     try {
       const phone = document.getElementById("phone").value.trim();
       const userRef = doc(db, "registrations", phone);
 
-      
-
-      // Create new registration
       await setDoc(userRef, {
         name: document.getElementById("fullName").value.trim(),
         phone,
@@ -100,8 +103,9 @@ if (form) {
     } catch (error) {
       console.error("Firestore error:", error);
       alert("❌ Sorry, you are already registered!");
+    } finally {
+      isSubmitting = false; // 🔓 UNLOCK
     }
   });
 }
-
 });
