@@ -70,37 +70,42 @@ document.addEventListener("DOMContentLoaded", () => {
   // 🚀 SUBMIT HANDLING
   let isSubmitting = false;
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (isSubmitting) return;
-    isSubmitting = true;
+  // Only add this submit listener if firebase.js did NOT already add one
+  if (!form.dataset.submitBound) {
+    form.dataset.submitBound = "true";
 
-    try {
-      const phone = document.getElementById("phone").value.trim();
-      const userRef = doc(db, "registrations", phone);
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (isSubmitting) return;
+      isSubmitting = true;
 
-      await setDoc(userRef, {
-        name: document.getElementById("fullName").value.trim(),
-        phone,
-        age: document.getElementById("Age").value,
-        gender: document.getElementById("Gender").value,
-        localChurch: document.getElementById("localChurch").value,
-        role: roleSelect.value,
-        level: levelSelect.value || "",
-        position: positionSelect.value || "",
-        createdAt: serverTimestamp()
-      });
+      try {
+        const phone = document.getElementById("phone").value.trim();
+        const userRef = doc(db, "registrations", phone);
 
-      alert("✅ Registration successful!");
-      form.reset();
-      leadershipSection.style.display = 'none';
-      positionSection.style.display = 'none';
+        await setDoc(userRef, {
+          name: document.getElementById("fullName").value.trim(),
+          phone,
+          age: document.getElementById("Age").value,
+          gender: document.getElementById("Gender").value,
+          localChurch: document.getElementById("localChurch").value,
+          role: roleSelect.value,
+          level: levelSelect.value || "",
+          position: positionSelect.value || "",
+          createdAt: serverTimestamp()
+        });
 
-    } catch (err) {
-      console.error("Firestore error:", err);
-    } finally {
-      isSubmitting = false;
-    }
-  });
+        alert("✅ Registration successful!");
+        form.reset();
+        leadershipSection.style.display = 'none';
+        positionSection.style.display = 'none';
+
+      } catch (err) {
+        console.error("Firestore error:", err);
+      } finally {
+        isSubmitting = false;
+      }
+    });
+  }
 
 });
