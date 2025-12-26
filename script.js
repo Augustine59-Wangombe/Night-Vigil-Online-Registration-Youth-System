@@ -1,4 +1,3 @@
-
 import { db, doc, setDoc, serverTimestamp } from "./firebase.js";
 
 console.log("Leadership script loaded");
@@ -33,27 +32,29 @@ document.addEventListener("DOMContentLoaded", () => {
     "Local Disciplinarian"
   ];
 
-  // HIDE SECTIONS
+  // HIDE SECTIONS INITIALLY
   leadershipSection.style.display = 'none';
   positionSection.style.display = 'none';
 
   // ROLE CHANGE
-  roleSelect.addEventListener('change', function () {
-    if (this.value.toLowerCase() === 'leader') {
+  roleSelect.addEventListener('change', () => {
+    if (roleSelect.value.toLowerCase() === 'leader') {
       leadershipSection.style.display = 'block';
     } else {
       leadershipSection.style.display = 'none';
       positionSection.style.display = 'none';
+      levelSelect.value = "";
+      positionSelect.innerHTML = '<option value="">-- Choose Position --</option>';
     }
   });
 
   // LEVEL CHANGE
-  levelSelect.addEventListener('change', function () {
+  levelSelect.addEventListener('change', () => {
     positionSelect.innerHTML = '<option value="">-- Choose Position --</option>';
 
     const positions =
-      this.value === 'parish' ? parishPositions :
-      this.value === 'local' ? localPositions : [];
+      levelSelect.value === 'parish' ? parishPositions :
+      levelSelect.value === 'local' ? localPositions : [];
 
     positions.forEach(pos => {
       const option = document.createElement('option');
@@ -65,43 +66,41 @@ document.addEventListener("DOMContentLoaded", () => {
     positionSection.style.display = positions.length ? 'block' : 'none';
   });
 
-  // 🚀 SUBMIT (guaranteed once)
- let isSubmitting = false;
+  // 🚀 SUBMIT HANDLING
+  let isSubmitting = false;
 
-cleanForm.onsubmit = async (e) => {
-  e.preventDefault();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+    isSubmitting = true;
 
-  if (isSubmitting) return;
-  isSubmitting = true;
+    try {
+      const phone = document.getElementById("phone").value.trim();
+      const userRef = doc(db, "registrations", phone);
 
-  try {
-    const phone = document.getElementById("phone").value.trim();
-    const userRef = doc(db, "registrations", phone);
+      await setDoc(userRef, {
+        name: document.getElementById("fullName").value.trim(),
+        phone,
+        age: document.getElementById("Age").value,
+        gender: document.getElementById("Gender").value,
+        localChurch: document.getElementById("localChurch").value,
+        role: roleSelect.value,
+        level: levelSelect.value || "",
+        position: positionSelect.value || "",
+        createdAt: serverTimestamp()
+      });
 
-    await setDoc(userRef, {
-      name: document.getElementById("fullName").value.trim(),
-      phone,
-      age: document.getElementById("Age").value,
-      gender: document.getElementById("Gender").value,
-      localChurch: document.getElementById("localChurch").value,
-      role: roleSelect.value,
-      level: levelSelect.value || "",
-      position: positionSelect.value || "",
-      createdAt: serverTimestamp()
-    });
+      alert("✅ Registration successful!");
+      form.reset();
+      leadershipSection.style.display = 'none';
+      positionSection.style.display = 'none';
 
-    alert("✅ Registration successful!");
-    cleanForm.reset();
+    } catch (err) {
+      console.error("Firestore error:", err);
+    } finally {
+      isSubmitting = false;
+    }
+  });
 
-    leadershipSection.style.display = 'none';
-    positionSection.style.display = 'none';
+});
 
-  } catch (err) {
-    console.error("Firestore error:", err);
-  } finally {
-    isSubmitting = false;
-  }
-};
-
-
-}); // ✅ THIS WAS MISSING
