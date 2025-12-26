@@ -68,9 +68,10 @@ console.log("Leadership script loaded");
   }
 
   // FORM SUBMISSION
-if (form) {
+if (form && !form.dataset.bound) {
 
-  let isSubmitting = false; // 🔒 LOCK
+  form.dataset.bound = "true"; // 🔒 PREVENT DOUBLE BINDING
+  let isSubmitting = false;
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
