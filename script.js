@@ -1,3 +1,4 @@
+
 import { db, doc, setDoc, serverTimestamp } from "./firebase.js";
 
 console.log("Leadership script loaded");
@@ -103,4 +104,3 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
-
