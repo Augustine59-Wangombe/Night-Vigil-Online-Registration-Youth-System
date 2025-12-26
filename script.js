@@ -1,5 +1,5 @@
 
-import { db, doc, setDoc, serverTimestamp } from "./firebase.js";
+import { db, collection, serverTimestamp, addDoc } from "./firebase.js";
 
 console.log("Leadership script loaded");
 
@@ -70,42 +70,39 @@ document.addEventListener("DOMContentLoaded", () => {
   // 🚀 SUBMIT HANDLING
   let isSubmitting = false;
 
-  // Only add this submit listener if firebase.js did NOT already add one
-  if (!form.dataset.submitBound) {
-    form.dataset.submitBound = "true";
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+    isSubmitting = true;
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (isSubmitting) return;
-      isSubmitting = true;
+    try {
+      // Gather form values
+      const formData = {
+        name: document.getElementById("fullName").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        age: document.getElementById("Age").value,
+        gender: document.getElementById("Gender").value,
+        localChurch: document.getElementById("localChurch").value,
+        role: roleSelect.value,
+        level: levelSelect.value || "",
+        position: positionSelect.value || "",
+        createdAt: serverTimestamp()
+      };
 
-      try {
-        const phone = document.getElementById("phone").value.trim();
-        const userRef = doc(db, "registrations", phone);
+      // Save to Firestore using addDoc (auto-generated ID)
+      await addDoc(collection(db, "registrations"), formData);
 
-        await setDoc(userRef, {
-          name: document.getElementById("fullName").value.trim(),
-          phone,
-          age: document.getElementById("Age").value,
-          gender: document.getElementById("Gender").value,
-          localChurch: document.getElementById("localChurch").value,
-          role: roleSelect.value,
-          level: levelSelect.value || "",
-          position: positionSelect.value || "",
-          createdAt: serverTimestamp()
-        });
+      alert("✅ Registration successful!");
+      form.reset();
+      leadershipSection.style.display = 'none';
+      positionSection.style.display = 'none';
 
-        alert("✅ Registration successful!");
-        form.reset();
-        leadershipSection.style.display = 'none';
-        positionSection.style.display = 'none';
-
-      } catch (err) {
-        console.error("Firestore error:", err);
-      } finally {
-        isSubmitting = false;
-      }
-    });
-  }
+    } catch (err) {
+      console.error("Firestore error:", err);
+      alert("❌ Error: " + err.message);
+    } finally {
+      isSubmitting = false;
+    }
+  });
 
 });
