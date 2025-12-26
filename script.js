@@ -5,7 +5,7 @@ import { db, doc, setDoc, serverTimestamp } from "./firebase.js";
 
 console.log("Leadership script loaded");
 
-document.addEventListener("DOMContentLoaded", function () {
+
 
   // ELEMENTS
   const form = document.getElementById("registerForm");
@@ -107,5 +107,5 @@ if (form) {
       isSubmitting = false; // 🔓 UNLOCK
     }
   });
-}
-});
+
+}       
